@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import { supabase } from "../lib/supabase";
 
@@ -40,6 +40,9 @@ export default function Home() {
   const [query, setQuery] = useState("");
   const [selectedDish, setSelectedDish] = useState<Dish | null>(null);
   const [dishes, setDishes] = useState<Dish[]>(demoDishes);
+  const [visibleDishIds, setVisibleDishIds] = useState<Set<string>>(new Set());
+  const [menuVisible, setMenuVisible] = useState(false);
+  const menuRef = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
     let mounted = true;
@@ -74,12 +77,45 @@ export default function Home() {
     return categoryMatch && queryMatch;
   }), [dishes, activeCategory, query]);
 
+  useEffect(() => {
+    const menu = menuRef.current;
+    if (!menu) return;
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        setMenuVisible(true);
+        observer.disconnect();
+      }
+    }, { threshold: 0.12 });
+    observer.observe(menu);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    setVisibleDishIds(new Set());
+    const cards = Array.from(document.querySelectorAll<HTMLElement>(".dish-card"));
+    if (!cards.length) return;
+    const observer = new IntersectionObserver((entries) => {
+      setVisibleDishIds((current) => {
+        const next = new Set(current);
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const id = entry.target.getAttribute("data-dish-id");
+            if (id) next.add(id);
+          }
+        });
+        return next;
+      });
+    }, { threshold: 0.16, rootMargin: "0px 0px -50px 0px" });
+    cards.forEach((card) => observer.observe(card));
+    return () => observer.disconnect();
+  }, [filtered]);
+
   return (
     <main>
       <nav className="nav">
         <a className="brand" href="#top" aria-label="NOEL BABA RESTORAN home"><span className="brand-mark">N</span><span>NOEL BABA RESTORAN</span></a>
         <div className="nav-links"><a href="#menu">Menu</a><a href="#story">Our story</a><a href="#visit">Visit</a></div>
-        <a className="nav-cta" href="#visit">Reserve a table <span>↗</span></a>
+        <a className="nav-cta" href="https://wa.me/27634616022" target="_blank" rel="noreferrer">WhatsApp <span>↗</span></a>
       </nav>
 
       <section className="hero" id="top">
@@ -100,7 +136,7 @@ export default function Home() {
 
       <section className="marquee" aria-label="Restaurant highlights"><span>SEASONAL INGREDIENTS</span><i>✦</i><span>OPEN KITCHEN</span><i>✦</i><span>CRAFTED COCKTAILS</span><i>✦</i><span>LOCAL PRODUCERS</span><i>✦</i><span>SEASONAL INGREDIENTS</span></section>
 
-      <section className="menu-section" id="menu">
+      <section ref={menuRef} className={menuVisible ? "menu-section menu-visible" : "menu-section"} id="menu">
         <div className="section-head">
           <div><div className="eyebrow"><span /> The menu</div><h2>Made to <em>linger.</em></h2></div>
           <p>Small plates for the table. Big flavors for the memory. Our menu changes with the season.</p>
@@ -113,7 +149,13 @@ export default function Home() {
 
         <div className="dish-grid">
           {filtered.map((dish) => (
-            <article className="dish-card" key={dish.id} onClick={() => setSelectedDish(dish)}>
+            <article
+              className={"dish-card " + (visibleDishIds.has(dish.id) ? "is-visible " : "") + (filtered.indexOf(dish) % 2 === 0 ? "reveal-left" : "reveal-right")}
+              data-dish-id={dish.id}
+              style={{ animationDelay: ((filtered.indexOf(dish) % 3) * 90) + "ms" }}
+              key={dish.id}
+              onClick={() => setSelectedDish(dish)}
+            >
               <div className="dish-image">
                 <Image src={resolveImage(dish.image_path)} alt={dish.name} fill sizes="(max-width: 700px) 100vw, (max-width: 1100px) 50vw, 33vw" />
                 <div className="image-shade" />
@@ -135,7 +177,7 @@ export default function Home() {
 
       <section className="visit" id="visit">
         <div><div className="eyebrow"><span /> Come by</div><h2>Your table<br /><em>is waiting.</em></h2></div>
-        <div className="visit-details"><div><span>ADDRESS</span><strong>12 Nizami Street<br />Baku, Azerbaijan</strong></div><div><span>HOURS</span><strong>Mon–Thu · 18:00–00:00<br />Fri–Sun · 18:00–01:00</strong></div><a className="button primary" href="tel:+994501234567">Call for a reservation <span>↗</span></a></div>
+        <div className="visit-details"><div><span>ADDRESS</span><strong>12 Nizami Street<br />Baku, Azerbaijan</strong></div><div><span>HOURS</span><strong>Mon–Thu · 18:00–00:00<br />Fri–Sun · 18:00–01:00</strong></div><a className="button primary" href="https://wa.me/27634616022" target="_blank" rel="noreferrer">Contact us on WhatsApp <span>↗</span></a></div>
       </section>
 
       <footer><div className="brand"><span className="brand-mark">N</span><span>NOEL BABA RESTORAN</span></div><p>Contemporary dining in the heart of Baku.</p><span>© 2026 NOEL BABA RESTORAN</span></footer>
