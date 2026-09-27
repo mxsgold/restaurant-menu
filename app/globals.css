@@ -132,3 +132,53 @@ footer .brand { color: #ddd; }
   .modal-content { padding: 35px 28px; }
   .modal-content h2 { font-size: 42px; }
 }
+
+
+/* Menu scroll reveal */
+.menu-section .section-head,
+.menu-section .toolbar {
+  opacity: 0;
+  transform: translateY(34px);
+  transition: opacity .85s ease, transform .85s cubic-bezier(.2,.8,.2,1);
+}
+.menu-section.menu-visible .section-head {
+  opacity: 1;
+  transform: none;
+}
+.menu-section.menu-visible .toolbar {
+  opacity: 1;
+  transform: none;
+  transition-delay: .12s;
+}
+.dish-card {
+  opacity: 0;
+  will-change: transform, opacity;
+}
+.dish-card.reveal-left { --reveal-x: -70px; transform: translate3d(-70px, 42px, 0) scale(.97); }
+.dish-card.reveal-right { --reveal-x: 70px; transform: translate3d(70px, 42px, 0) scale(.97); }
+.dish-card.is-visible {
+  animation: dishReveal .85s cubic-bezier(.2,.8,.2,1) forwards;
+}
+@keyframes dishReveal {
+  0% {
+    opacity: 0;
+    transform: translate3d(var(--reveal-x), 42px, 0) scale(.97);
+    filter: blur(5px);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+    filter: blur(0);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .menu-section .section-head,
+  .menu-section .toolbar,
+  .dish-card {
+    opacity: 1;
+    transform: none;
+    transition: none;
+    animation: none;
+    filter: none;
+  }
+}
