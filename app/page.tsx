@@ -77,7 +77,7 @@ export default function Home() {
   return (
     <main>
       <nav className="nav">
-        <a className="brand" href="#top" aria-label="NOIR home"><span className="brand-mark">N</span><span>NOIR</span></a>
+        <a className="brand" href="#top" aria-label="NOEL BABA RESTORAN home"><span className="brand-mark">N</span><span>NOEL BABA RESTORAN</span></a>
         <div className="nav-links"><a href="#menu">Menu</a><a href="#story">Our story</a><a href="#visit">Visit</a></div>
         <a className="nav-cta" href="#visit">Reserve a table <span>↗</span></a>
       </nav>
@@ -130,7 +130,7 @@ export default function Home() {
 
       <section className="story" id="story">
         <div className="story-image"><Image src="https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=1400&q=90" alt="Chef preparing a dish" fill sizes="(max-width: 800px) 100vw, 50vw" /></div>
-        <div className="story-copy"><div className="eyebrow"><span /> Our philosophy</div><h2>Less noise.<br /><em>More flavor.</em></h2><p>NOIR is a place for people who care about what is on the plate — and who they share it with. We keep the room intimate, the ingredients honest and the cooking unapologetically bold.</p><div className="stats"><div><strong>2019</strong><span>Founded</span></div><div><strong>32</strong><span>Seats</span></div><div><strong>∞</strong><span>Good nights</span></div></div></div>
+        <div className="story-copy"><div className="eyebrow"><span /> Our philosophy</div><h2>Less noise.<br /><em>More flavor.</em></h2><p>NOEL BABA RESTORAN is a place for people who care about what is on the plate — and who they share it with. We keep the room intimate, the ingredients honest and the cooking unapologetically bold.</p><div className="stats"><div><strong>2019</strong><span>Founded</span></div><div><strong>32</strong><span>Seats</span></div><div><strong>∞</strong><span>Good nights</span></div></div></div>
       </section>
 
       <section className="visit" id="visit">
@@ -138,7 +138,7 @@ export default function Home() {
         <div className="visit-details"><div><span>ADDRESS</span><strong>12 Nizami Street<br />Baku, Azerbaijan</strong></div><div><span>HOURS</span><strong>Mon–Thu · 18:00–00:00<br />Fri–Sun · 18:00–01:00</strong></div><a className="button primary" href="tel:+994501234567">Call for a reservation <span>↗</span></a></div>
       </section>
 
-      <footer><div className="brand"><span className="brand-mark">N</span><span>NOIR</span></div><p>Contemporary dining in the heart of Baku.</p><span>© 2026 NOIR</span></footer>
+      <footer><div className="brand"><span className="brand-mark">N</span><span>NOEL BABA RESTORAN</span></div><p>Contemporary dining in the heart of Baku.</p><span>© 2026 NOEL BABA RESTORAN</span></footer>
 
       {selectedDish && (
         <div className="modal-backdrop" onClick={() => setSelectedDish(null)}>
