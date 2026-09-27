@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "NOIR — Modern Dining",
+  title: "NOEL BABA RESTORAN — Modern Dining",
   description: "A premium digital menu experience for a modern restaurant.",
 };
 
