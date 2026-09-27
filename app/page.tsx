@@ -177,7 +177,7 @@ export default function Home() {
 
       <section className="visit" id="visit">
         <div><div className="eyebrow"><span /> Come by</div><h2>Your table<br /><em>is waiting.</em></h2></div>
-        <div className="visit-details"><div><span>ADDRESS</span><strong>12 Nizami Street<br />Baku, Azerbaijan</strong></div><div><span>HOURS</span><strong>Mon–Thu · 18:00–00:00<br />Fri–Sun · 18:00–01:00</strong></div><a className="button primary" href="https://wa.me/27634616022" target="_blank" rel="noreferrer">Contact us on WhatsApp <span>↗</span></a></div>
+        <div className="visit-details"><div><span>ADDRESS</span><strong>12 Nizami Street<br />Baku, Azerbaijan</strong></div><div><span>HOURS</span><strong>Mon–Thu · 18:00–00:00<br />Fri–Sun · 18:00–01:00</strong></div><a className="button primary" href="https://wa.me/27634616022" target="_blank" rel="noreferrer">Позвонить хуесосу <span>↗</span></a></div>
       </section>
 
       <footer><div className="brand"><span className="brand-mark">N</span><span>NOEL BABA RESTORAN</span></div><p>Contemporary dining in the heart of Baku.</p><span>© 2026 NOEL BABA RESTORAN</span></footer>
